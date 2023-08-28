@@ -18,8 +18,9 @@ def get_clients():
     
     response = requests.get(url, params).json()
     
-    with open('assets/clients.json', 'w') as f:
-        json.dump(response, f, indent=3)
+    # with open('assets/clients.json', 'w') as f:
+    #     json.dump(response, f, indent=3)
+    return response
 
 
 def get_campaigns(client_id):
@@ -35,8 +36,9 @@ def get_campaigns(client_id):
 
     response = requests.get(url, params).json()
 
-    with open('assets/campaigns.json', 'w') as f:
-        json.dump(response, f, indent=3)
+    # with open('assets/campaigns.json', 'w') as f:
+    #     json.dump(response, f, indent=3)
+    return response
 
 
 def get_ads(client_id, campaign_ids):
@@ -53,8 +55,9 @@ def get_ads(client_id, campaign_ids):
 
     response = requests.get(url, params).json()
 
-    with open('assets/ads.json', 'w') as f:
-        json.dump(response, f, indent=3)
+    # with open('assets/ads.json', 'w') as f:
+    #     json.dump(response, f, indent=3)
+    return response
 
 
 def get_statistics(ids_type, ids, date_from, date_to):
@@ -73,5 +76,6 @@ def get_statistics(ids_type, ids, date_from, date_to):
 
     response = requests.get(url, params).json()
 
-    with open('assets/statistics.json', 'w') as f:
-        json.dump(response, f, indent=3)
+    # with open('assets/statistics.json', 'w') as f:
+    #     json.dump(response, f, indent=3)
+    return response
