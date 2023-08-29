@@ -13,11 +13,14 @@ date_from_str = date_from.strftime('%Y-%m-%d')
 with open('assets/clients.json', 'r') as file:
     clients = json.load(file)['response']
 
+id_name_dict = {1608343119: "adv_ostrov_chistoti_smm",
+                1608327357: "adv_mimimi",
+                1607696736: "adv_savushkin"}
 
 for client in clients:
-    if client['id'] == 1607696736:
+    if client['id'] in [1608343119, 1608327357, 1607696736]:
         client_id = client['id']
-        client_name = client['name']
+        client_name = id_name_dict[client_id]
 
         # campaigns
         campaigns = get_campaigns(client_id=client_id)
