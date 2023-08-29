@@ -1,4 +1,4 @@
-from vk_ads_methods import get_clients, get_campaigns, get_ads, get_statistics, get_ads_layout
+from vk_ads_methods import get_clients, get_campaigns, get_ads, get_statistics, get_ads_layout, load_to_database
 import json
 import pandas as pd
 from datetime import datetime
@@ -22,8 +22,8 @@ for client in clients:
         # campaigns
         campaigns = get_campaigns(client_id=client_id)
 
-        with open(f'assets/{client_name}_campaigns.json', 'w') as f:
-            json.dump(campaigns, f, indent=3)
+        # with open(f'assets/{client_name}_campaigns.json', 'w') as f:
+        #     json.dump(campaigns, f, indent=3)
 
         list_of_campaigns_ids = [str(i['id']) for i in campaigns['response']]
         string_of_campaigns_ids = ', '.join(list_of_campaigns_ids)
@@ -32,19 +32,21 @@ for client in clients:
                                               ids=string_of_campaigns_ids,
                                               date_from=date_from_str,
                                               date_to=date_to_str)
-        with open(f'assets/{client_name}_campaigns_statistics.json', 'w') as f:
-            json.dump(campaigns_statistics, f, indent=3)
+
+        table_name = f'assets/{client_name}_campaigns_statistics'.lower()
 
         df = pd.json_normalize(campaigns_statistics['response'], 'stats', ['id', 'type'])
         json_df = pd.DataFrame(campaigns['response'])
         df = pd.merge(df, json_df[['id', 'name']], on='id', how='left')
-        df.to_csv(f'assets/{client_name}_campaigns_statistics.csv', index=False)
+        df.to_csv(f'{table_name}.csv', index=False)
+        df = pd.read_csv(f'{table_name}.csv')
+        load_to_database(df, table_name)
 
         # ads
         ads = get_ads(client_id=client_id, campaign_ids=string_of_campaigns_ids)
 
-        with open(f'assets/{client_name}_ads.json', 'w') as f:
-            json.dump(ads, f, indent=3)
+        # with open(f'assets/{client_name}_ads.json', 'w') as f:
+        #     json.dump(ads, f, indent=3)
 
         list_of_ads_ids = [str(i['id']) for i in ads['response']]
         string_of_ads_ids = ', '.join(list_of_ads_ids)
@@ -54,6 +56,8 @@ for client in clients:
                                         date_from=date_from_str,
                                         date_to=date_to_str)
 
+        table_name = f'assets/{client_name}_ads_statistics'.lower()
+
         df = pd.json_normalize(ads_statistics['response'], 'stats', ['id', 'type'])
         json_df = pd.DataFrame(ads['response'])[['id', 'name']]
         df = pd.merge(df, json_df, on='id', how='left')
@@ -62,4 +66,6 @@ for client in clients:
         json_df = pd.DataFrame(ads_layout['response'])[['id', 'link_url', 'preview_link']]
         df = pd.merge(df, json_df, on='id', how='left')
 
-        df.to_csv(f'assets/{client_name}_ads_statistics.csv', index=False)
+        df.to_csv(f'{table_name}.csv', index=False)
+        df = pd.read_csv(f'{table_name}.csv')
+        load_to_database(df, table_name)

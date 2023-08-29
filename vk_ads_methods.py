@@ -1,10 +1,14 @@
 import requests
 import json
 import time
+import sqlalchemy
 
 
 with open('resources/credentials.json', 'r') as file:
     access_token = json.load(file)['access_token']
+
+with open('resources/sql_engine.txt', 'r') as file:
+    sql_engine = file.read()
 
 account_id = 1900012938
 
@@ -99,3 +103,12 @@ def get_ads_layout(ids, client_id):
     # with open('assets/ads_layout.json', 'w') as f:
     #     json.dump(response, f, indent=3)
     return response
+
+
+def load_to_database(df, table_name):
+    engine = sqlalchemy.create_engine(sql_engine)
+    inspector = sqlalchemy.inspect(engine)
+    if not inspector.has_table(table_name):
+        df.head(0).to_sql(table_name, engine, if_exists='replace', index=False)
+    df.to_sql(table_name, engine, if_exists='replace', index=False)
+    print(f'{table_name} loaded to database')
