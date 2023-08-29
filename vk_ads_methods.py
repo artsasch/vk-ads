@@ -79,3 +79,22 @@ def get_statistics(ids_type, ids, date_from, date_to):
     # with open('assets/statistics.json', 'w') as f:
     #     json.dump(response, f, indent=3)
     return response
+
+
+def get_ads_layout(ids, client_id):
+    url = 'https://api.vk.com/method/ads.getAdsLayout'
+    params = {
+        "account_id": account_id,
+        "client_id": client_id,
+        "ad_ids": f"[{ids}]",
+        "include_deleted": 1,
+        "access_token": access_token,
+        "limit": 2000,
+        "v": "5.131"
+    }
+
+    response = requests.get(url, params).json()
+
+    # with open('assets/ads_layout.json', 'w') as f:
+    #     json.dump(response, f, indent=3)
+    return response
