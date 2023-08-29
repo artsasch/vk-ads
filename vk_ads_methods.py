@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 
 with open('resources/credentials.json', 'r') as file:
@@ -17,7 +18,7 @@ def get_clients():
     }
     
     response = requests.get(url, params).json()
-    
+    time.sleep(0.5)
     # with open('assets/clients.json', 'w') as f:
     #     json.dump(response, f, indent=3)
     return response
@@ -35,7 +36,7 @@ def get_campaigns(client_id):
     }
 
     response = requests.get(url, params).json()
-
+    time.sleep(0.5)
     # with open('assets/campaigns.json', 'w') as f:
     #     json.dump(response, f, indent=3)
     return response
@@ -54,7 +55,7 @@ def get_ads(client_id, campaign_ids):
     }
 
     response = requests.get(url, params).json()
-
+    time.sleep(0.5)
     # with open('assets/ads.json', 'w') as f:
     #     json.dump(response, f, indent=3)
     return response
@@ -75,7 +76,7 @@ def get_statistics(ids_type, ids, date_from, date_to):
     }
 
     response = requests.get(url, params).json()
-
+    time.sleep(0.5)
     # with open('assets/statistics.json', 'w') as f:
     #     json.dump(response, f, indent=3)
     return response
@@ -94,7 +95,7 @@ def get_ads_layout(ids, client_id):
     }
 
     response = requests.get(url, params).json()
-
+    time.sleep(0.5)
     # with open('assets/ads_layout.json', 'w') as f:
     #     json.dump(response, f, indent=3)
     return response

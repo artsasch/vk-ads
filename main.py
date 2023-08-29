@@ -1,6 +1,13 @@
 from vk_ads_methods import get_clients, get_campaigns, get_ads, get_statistics, get_ads_layout
 import json
 import pandas as pd
+from datetime import datetime
+
+
+date_to = datetime.now()
+date_to_str = date_to.strftime('%Y-%m-%d')
+date_from = datetime(date_to.year, date_to.month - 1, 1) if date_to.month > 1 else datetime(date_to.year - 1, 12, 1)
+date_from_str = date_from.strftime('%Y-%m-%d')
 
 
 with open('assets/clients.json', 'r') as file:
@@ -23,8 +30,10 @@ for client in clients:
 
         campaigns_statistics = get_statistics(ids_type="campaign",
                                               ids=string_of_campaigns_ids,
-                                              date_from="2023-08-01",
-                                              date_to="2023-08-31")
+                                              date_from=date_from_str,
+                                              date_to=date_to_str)
+        with open(f'assets/{client_name}_campaigns_statistics.json', 'w') as f:
+            json.dump(campaigns_statistics, f, indent=3)
 
         df = pd.json_normalize(campaigns_statistics['response'], 'stats', ['id', 'type'])
         json_df = pd.DataFrame(campaigns['response'])
@@ -42,8 +51,8 @@ for client in clients:
 
         ads_statistics = get_statistics(ids_type="ad",
                                         ids=string_of_ads_ids,
-                                        date_from="2023-08-01",
-                                        date_to="2023-08-31")
+                                        date_from=date_from_str,
+                                        date_to=date_to_str)
 
         df = pd.json_normalize(ads_statistics['response'], 'stats', ['id', 'type'])
         json_df = pd.DataFrame(ads['response'])[['id', 'name']]
