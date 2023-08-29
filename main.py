@@ -29,6 +29,8 @@ for client in clients:
             json.dump(campaigns_statistics, f, indent=3)
 
         df = pd.json_normalize(campaigns_statistics['response'], 'stats', ['id', 'type'])
+        json_df = pd.DataFrame(campaigns['response'])
+        df = pd.merge(df, json_df[['id', 'name']], on='id', how='left')
         df.to_csv('assets/campaigns_statistics.csv', index=False)
 
         # ads = get_ads(client_id=client_id, campaign_ids=string_of_campaigns_ids)
