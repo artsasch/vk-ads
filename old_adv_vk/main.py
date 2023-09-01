@@ -1,4 +1,4 @@
-from vk_ads_methods import get_clients, get_campaigns, get_ads, get_statistics, get_ads_layout, load_to_database
+from vk_ads_methods import get_campaigns, get_ads, get_statistics, get_ads_layout, load_to_database
 import json
 import pandas as pd
 from datetime import datetime
