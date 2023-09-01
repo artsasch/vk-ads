@@ -32,8 +32,8 @@ def get_ads(client_id, client_name, access_token):
         'Authorization': f'Bearer {access_token}'
     }
     response = requests.get(url, params=params, headers=headers).json()
-    with open(f'assets/{client_name}_ads.json', 'w') as f:
-        json.dump(response, f, indent=3)
+    # with open(f'assets/{client_name}_ads.json', 'w') as f:
+    #     json.dump(response, f, indent=3)
     return response
 
 
