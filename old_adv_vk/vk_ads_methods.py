@@ -4,10 +4,10 @@ import time
 import sqlalchemy
 
 
-with open('resources/credentials.json', 'r') as file:
+with open('../resources/credentials.json', 'r') as file:
     access_token = json.load(file)['access_token']
 
-with open('resources/sql_engine.txt', 'r') as file:
+with open('../resources/sql_engine.txt', 'r') as file:
     sql_engine = file.read()
 
 account_id = 1900012938

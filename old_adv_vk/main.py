@@ -35,6 +35,8 @@ for client in clients:
                                               ids=string_of_campaigns_ids,
                                               date_from=date_from_str,
                                               date_to=date_to_str)
+        with open(f'assets/{client_name}_campaigns_statistics.json', 'w') as f:
+            json.dump(campaigns_statistics, f, indent=3)
 
         table_name = f'{client_name}_campaigns_statistics'.lower()
 
@@ -43,7 +45,7 @@ for client in clients:
         df = pd.merge(df, json_df[['id', 'name']], on='id', how='left')
         df.to_csv(f'assets/{table_name}.csv', index=False)
         df = pd.read_csv(f'assets/{table_name}.csv')
-        load_to_database(df, table_name)
+        # load_to_database(df, table_name)
 
         # ads
         ads = get_ads(client_id=client_id, campaign_ids=string_of_campaigns_ids)
@@ -71,4 +73,4 @@ for client in clients:
 
         df.to_csv(f'assets/{table_name}.csv', index=False)
         df = pd.read_csv(f'assets/{table_name}.csv')
-        load_to_database(df, table_name)
+        # load_to_database(df, table_name)
